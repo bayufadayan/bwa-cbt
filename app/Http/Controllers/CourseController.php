@@ -12,7 +12,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        return 'Ini adalah course nya bungg';
     }
 
     /**
