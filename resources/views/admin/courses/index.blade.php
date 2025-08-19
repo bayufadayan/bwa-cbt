@@ -243,7 +243,7 @@
                                         class="flex items-center justify-between font-bold text-sm w-full">
                                         Students
                                     </a>
-                                    <a href="course-details.html"
+                                    <a href="{{ route('courses.edit', $course) }}"
                                         class="flex items-center justify-between font-bold text-sm w-full">
                                         Edit Course
                                     </a>

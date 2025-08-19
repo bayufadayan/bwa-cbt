@@ -334,7 +334,7 @@
                     <a href=""
                         class="w-full h-[52px] p-[14px_20px] bg-[#0A090B] rounded-full font-semibold text-white transition-all duration-300 text-center">Add
                         to Draft</a>
-                    <button type="submit" href="index.html"
+                    <button type="submit"
                         class="w-full h-[52px] p-[14px_20px] bg-[#6436F1] rounded-full font-bold text-white transition-all duration-300 hover:shadow-[0_4px_15px_0_#6436F14D] text-center">
                         Save Course
                     </button>

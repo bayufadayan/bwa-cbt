@@ -79,7 +79,11 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        //
+        $categories = Category::all();
+        return view('admin.courses.edit', [
+            'course' => $course,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -87,7 +91,32 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        $validated = $request->validate([
+            'name' => "required|string|max:255",
+            'category_id' => "required|integer",
+            'cover' => "sometimes|image|mimes:png,jpg,svg",
+        ]);
+
+        DB::beginTransaction();
+        try {
+            if ($request->hasFile('cover')) {
+                $coverPath = $request->file('cover')->store('product_covers', 'public');
+                $validated['cover'] = $coverPath;
+            }
+
+            $validated['slug'] = Str::slug($request->name);
+            $course->update($validated);
+            DB::commit();
+
+            return redirect()->route('courses.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $err = ValidationException::withMessages([
+                'system_error' => ['System Error!' . $e->getMessage()],
+            ]);
+
+            throw $err;
+        }
     }
 
     /**
