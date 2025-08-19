@@ -185,7 +185,7 @@
             <form method="POST" enctype="multipart/form-data" action="{{ route('courses.update', $course) }}"
                 class="flex flex-col gap-[30px] w-[500px] mx-[70px] mt-10">
                 @csrf
-                @method('PUT')
+                @method('PATCH')
                 <div class="flex gap-5 items-center">
                     <input type="file" name="cover" id="icon" class="peer hidden"
                         onchange="previewFile()" data-empty="true">
