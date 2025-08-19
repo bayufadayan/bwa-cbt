@@ -16,7 +16,10 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return 'Ini adalah course nya bungg';
+        $courses = Course::orderBy('id', 'DESC')->get();
+        return view('admin.courses.index', [
+            'courses' => $courses
+        ]);
     }
 
     /**
@@ -51,7 +54,7 @@ class CourseController extends Controller
                 $newCourse = Course::create($validated);
                 DB::commit();
 
-                return view('admin.courses.index');
+                return redirect()->route('courses.index');
             }
         } catch (\Exception $e) {
             DB::rollBack();
