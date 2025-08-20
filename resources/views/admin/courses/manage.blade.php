@@ -281,8 +281,10 @@
                                     class="bg-[#0A090B] p-[14px_30px] rounded-full text-white font-semibold">
                                     Edit
                                 </a>
-                                <form action="">
-                                    <button
+                                <form method="POST" action="{{ route('course_questions.destroy', $question) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
                                         class="w-[52px] h-[52px] flex shrink-0 items-center justify-center rounded-full bg-[#FD445E]">
                                         <img src="{{ asset('images/icons/trash.svg') }}" alt="icon">
                                     </button>
@@ -290,9 +292,9 @@
                             </div>
                         </div>
                     @empty
-                    <p class="text-center">
-                        Kelas belum memiliki daftar pertanyaan.
-                    </p>
+                        <p class="text-center">
+                            Kelas belum memiliki daftar pertanyaan.
+                        </p>
                     @endforelse
                 </div>
             </div>

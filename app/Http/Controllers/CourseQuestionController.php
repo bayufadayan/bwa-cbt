@@ -142,6 +142,15 @@ class CourseQuestionController extends Controller
      */
     public function destroy(CourseQuestion $courseQuestion)
     {
-        //
+        try {
+            $courseQuestion->delete();
+            return redirect()->route('courses.show', $courseQuestion->course_id);
+        } catch (\Exception $e) {
+            $err = ValidationException::withMessages([
+                'system_error' => ['System Error!' . $e->getMessage()],
+            ]);
+
+            throw $err;
+        }
     }
 }
