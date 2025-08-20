@@ -15,6 +15,18 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @role('teacher')
+                    <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.index')">
+                        {{ __('Manage Course') }}
+                    </x-nav-link>
+                    @endrole
+                    
+                    @role('student')
+                    <x-nav-link :href="route('learning.index')" :active="request()->routeIs('learning.index')">
+                        {{ __('My Course') }}
+                    </x-nav-link>
+                    @endrole
                 </div>
             </div>
 
