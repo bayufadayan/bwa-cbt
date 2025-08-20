@@ -227,7 +227,7 @@
                 <div class="flex flex-col gap-[10px]">
                     <p class="font-semibold">Answers</p>
 
-                    @foreach ($courseQuestion->course_answers as $answer)
+                    @foreach ($courseQuestion->course_answers as $index => $answer)
                         <div class="flex items-center gap-4">
                             <div
                                 class="flex items-center w-[500px] h-[52px] p-[14px_16px] rounded-full border border-[#EEEEEE] focus-within:border-2 focus-within:border-[#0A090B]">
@@ -241,7 +241,7 @@
                             </div>
                             <label class="font-semibold flex items-center gap-[10px]">
                                 <input type="radio" name="correct_answer" required
-                                    value="{{ $answer->is_corrent }}" 
+                                    value="{{ $index }}" 
                                     {{ $answer->is_corrent ? 'checked' : '' }}
                                     class="w-[24px] h-[24px] appearance-none checked:border-[3px] checked:border-solid checked:border-white rounded-full checked:bg-[#2B82FE] ring ring-[#EEEEEE]" />
                                 Correct
