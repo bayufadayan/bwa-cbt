@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="{{ asset('css/output.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
@@ -240,8 +241,7 @@
                                     placeholder="Write better answer option" name="answers[]">
                             </div>
                             <label class="font-semibold flex items-center gap-[10px]">
-                                <input type="radio" name="correct_answer" required
-                                    value="{{ $index }}" 
+                                <input type="radio" name="correct_answer" required value="{{ $index }}"
                                     {{ $answer->is_corrent ? 'checked' : '' }}
                                     class="w-[24px] h-[24px] appearance-none checked:border-[3px] checked:border-solid checked:border-white rounded-full checked:bg-[#2B82FE] ring ring-[#EEEEEE]" />
                                 Correct
