@@ -198,12 +198,12 @@
                                 {{ $course->category->name }}
                             </p>
                         </div>
-                        {{-- <div class="flex shrink-0 w-[120px] items-center">
+                        <div class="flex shrink-0 w-[120px] items-center">
                             <a href="{{ route('learning.course', ['course' => $course->id, 'question' => $course->nextQuestionId]) }}"
                                 class="w-full h-[41px] p-[10px_20px] bg-[#6436F1] rounded-full font-bold text-sm text-white transition-all duration-300 hover:shadow-[0_4px_15px_0_#6436F14D] text-center">
                                 Start Test
                             </a>
-                        </div> --}}
+                        </div>
                     </div>
                 @empty
                     <p class="text-center">Belum ada course diberikan</p>
