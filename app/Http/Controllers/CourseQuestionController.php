@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\CourseQuestion;
 use Illuminate\Http\Request;
 
@@ -18,9 +19,14 @@ class CourseQuestionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Course $course)
     {
-        //
+        // dd($course);
+        $students = $course->users()->orderBy('id', 'DESC')->get();
+        return view('admin.questions.create', [
+            'course' => $course,
+            'students' => $students,
+        ]);
     }
 
     /**
