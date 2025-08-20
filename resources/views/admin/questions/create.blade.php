@@ -197,6 +197,15 @@
                     </div>
                 </div>
             </div>
+
+            @if ($errors->any())
+                <ul class="p-5 bg-red-700 text-white rounded-md">
+                    @foreach ($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            @endif
+
             <form method="POST" action="{{ route('course.create.question.store', $course) }}" id="add-question"
                 class="mx-[70px] mt-[30px] flex flex-col gap-5">
                 @csrf
@@ -229,8 +238,9 @@
                                     class="font-semibold placeholder:text-[#7F8190] placeholder:font-normal w-full outline-none"
                                     placeholder="Write better answer option" name="answers[]">
                             </div>
-                            <label class="font-semibold flex items-center gap-[10px]"><input type="radio"
-                                    name="correct_answer"
+                            <label class="font-semibold flex items-center gap-[10px]">
+                                <input type="radio" name="correct_answer" required
+                                value="{{ $i }}"
                                     class="w-[24px] h-[24px] appearance-none checked:border-[3px] checked:border-solid checked:border-white rounded-full checked:bg-[#2B82FE] ring ring-[#EEEEEE]" />
                                 Correct
                             </label>

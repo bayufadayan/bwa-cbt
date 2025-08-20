@@ -247,8 +247,7 @@
                                         class="flex items-center justify-between font-bold text-sm w-full">
                                         Edit Course
                                     </a>
-                                    <form method="POST"
-                                        action="{{ route('courses.destroy', $course) }}">
+                                    <form method="POST" action="{{ route('courses.destroy', $course) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -261,6 +260,9 @@
                         </div>
                     </div>
                 @empty
+                    <p class="text-center">
+                        Belum ada kelas tersedia.
+                    </p>
                 @endforelse
 
             </div>
