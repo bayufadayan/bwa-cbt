@@ -5,7 +5,9 @@ use App\Http\Controllers\CourseQuestionController;
 use App\Http\Controllers\CourseStudentController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentAnswerController;
 use App\Models\CourseQuestion;
+use App\Models\StudentAnswer;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -47,9 +49,9 @@ Route::middleware('auth')->group(function () {
             // Menampilkan beberapa kelas yang diberikan guru
             Route::get('/learning', [LearningController::class, 'index'])
                 ->name('learning.index');
-            Route::get('/learning/{course}/{question}', [LearningController::class], 'learning')
+            Route::get('/learning/{course}/{question}', [LearningController::class, 'learning'])
                 ->name('learning.course');
-            Route::post('/learning/{course}/{question}', [LearningController::class], 'store')
+            Route::post('/learning/{course}/{question}', [StudentAnswerController::class, 'store'])
                 ->name('learning.course.answer.store');
         });
     });
