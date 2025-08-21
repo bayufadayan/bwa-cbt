@@ -168,7 +168,7 @@
                         <img src="{{ Storage::url($course->cover) }}" class="w-full h-full object-contain"
                             alt="icon">
                         <p
-                            class="p-[8px_16px] rounded-full bg-[#FFF2E6] font-bold text-sm text-[#F6770B] absolute bottom-0 transform -translate-x-1/2 left-1/2 text-nowrap">
+                            class="p-[8px_16px] rounded-full bg-[#FFF2E6] font-bold text-sm text-[#F6770B] absolute bottom-0 transform text-nowrap">
                             {{ $course->category->name }}</p>
                     </div>
                     <div class="flex flex-col gap-5">
