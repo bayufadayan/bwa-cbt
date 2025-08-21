@@ -77,4 +77,54 @@ class LearningController extends Controller
     {
         return "Ajib geus beres";
     }
+
+    public function learning_raport(Course $course)
+    {
+        $userId = Auth::id();
+        $questions = CourseQuestion::with(['student_answer' => function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        }])
+            ->where('course_id', $course->id)
+            ->get();
+
+        $totalQuestionCount = $questions->count();
+        $answeredCount = StudentAnswer::where('user_id', $userId)
+            ->whereHas('course_question', function ($query) use ($course) {
+                $query->where('course_id', $course->id);
+            })
+            ->count();
+        $correctAnswerCount = StudentAnswer::where('user_id', $userId)
+            ->where('answer', 'correct')
+            ->whereHas('course_question', function ($query) use ($course) {
+                $query->where('course_id', $course->id);
+            })
+            ->count();
+        $isPassed = $correctAnswerCount === $totalQuestionCount;
+
+        if ($answeredCount !== $totalQuestionCount) {
+            return redirect(route('learning.index'))->with('error', 'Anda Belum menyelesaikan course');
+        }
+
+        foreach ($questions as $question) {
+            $studentAnswer = $question->student_answer()->first();
+
+            if ($studentAnswer) {
+                if ($studentAnswer->answer === 'correct') {
+                    $question->status = 'Success';
+                } elseif ($studentAnswer->answer === 'wrong') {
+                    $question->status = 'Failed';
+                }
+            } else {
+                $question->status = 'Not Answered';
+            }
+        }
+
+        return view('student.courses.learning_raport', [
+            'course' => $course,
+            'is_passed' => $isPassed,
+            'total_correct' => $correctAnswerCount,
+            'total_question' => $totalQuestionCount,
+            'questions' => $questions,
+        ]);
+    }
 }

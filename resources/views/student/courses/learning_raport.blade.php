@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="{{ asset('css/output.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
@@ -103,16 +104,13 @@
                         </a>
                     </li>
                     <li>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit"
-                                class="p-[10px_16px] w-full flex items-center gap-[14px] rounded-full h-11 transition-all duration-300 hover:bg-[#2B82FE]">
-                                <div>
-                                    <img src="{{ asset('images/icons/security-safe.svg') }}" alt="icon">
-                                </div>
-                                <p class="font-semibold transition-all duration-300 hover:text-white">Logout</p>
-                            </button>
-                        </form>
+                        <a href="signin.html"
+                            class="p-[10px_16px] flex items-center gap-[14px] rounded-full h-11 transition-all duration-300 hover:bg-[#2B82FE]">
+                            <div>
+                                <img src="{{ asset('images/icons/security-safe.svg') }}" alt="icon">
+                            </div>
+                            <p class="font-semibold transition-all duration-300 hover:text-white">Logout</p>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -143,7 +141,7 @@
                     <div class="flex gap-3 items-center">
                         <div class="flex flex-col text-right">
                             <p class="text-sm text-[#7F8190]">Howdy</p>
-                            <p class="font-semibold">{{ Auth::user()->name }}</p>
+                            <p class="font-semibold">Bondan Poro</p>
                         </div>
                         <div class="w-[46px] h-[46px]">
                             <img src="{{ asset('images/photos/default-photo.svg') }}" alt="photo">
@@ -151,72 +149,95 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col px-5 mt-5">
-                <div class="w-full flex justify-between items-center">
-                    <div class="flex flex-col gap-1">
-                        <p class="font-extrabold text-[30px] leading-[45px]">My Courses</p>
-                        <p class="text-[#7F8190]">Finish all given tests to grow</p>
-                    </div>
+            <div class="flex flex-col gap-10 px-5 mt-5">
+                <div class="breadcrumb flex items-center gap-[30px]">
+                    <a href="{{ route('dashboard') }}"
+                        class="text-[#7F8190] last:text-[#0A090B] last:font-semibold">Home</a>
+                    <span class="text-[#7F8190] last:text-[#0A090B]">/</span>
+                    <a href={{ route('learning.index') }}
+                        class="text-[#7F8190] last:text-[#0A090B] last:font-semibold">My
+                        Courses</a>
+                    <span class="text-[#7F8190] last:text-[#0A090B]">/</span>
+                    <a href="#" class="text-[#7F8190] last:text-[#0A090B] last:font-semibold ">Rapport
+                        Details</a>
                 </div>
             </div>
-            <div class="course-list-container flex flex-col px-5 mt-[30px] gap-[30px]">
-                <div class="course-list-header flex flex-nowrap justify-between pb-4 pr-10 border-b border-[#EEEEEE]">
-                    <div class="flex shrink-0 w-[300px]">
-                        <p class="text-[#7F8190]">Course</p>
+            <div class="header ml-[70px] pr-[70px] w-[940px] flex items-center justify-between mt-10">
+                <div class="flex gap-6 items-center">
+                    <div class="w-[150px] h-[150px] flex shrink-0 relative overflow-hidden">
+                        <img src="{{ Storage::url($course->cover) }}" class="w-full h-full object-contain"
+                            alt="icon">
+                        <p
+                            class="p-[8px_16px] rounded-full bg-[#FFF2E6] font-bold text-sm text-[#F6770B] absolute bottom-0 transform -translate-x-1/2 left-1/2 text-nowrap">
+                            {{ $course->category->name }}</p>
                     </div>
-                    <div class="flex justify-center shrink-0 w-[150px]">
-                        <p class="text-[#7F8190]">Date Created</p>
-                    </div>
-                    <div class="flex justify-center shrink-0 w-[170px]">
-                        <p class="text-[#7F8190]">Category</p>
-                    </div>
-                    <div class="flex justify-center shrink-0 w-[120px]">
-                        <p class="text-[#7F8190]">Action</p>
-                    </div>
-                </div>
-
-                @forelse ($my_courses as $course)
-                    <div class="list-items flex flex-nowrap justify-between pr-10">
-                        <div class="flex shrink-0 w-[300px]">
-                            <div class="flex items-center gap-4">
-                                <div class="w-16 h-16 flex shrink-0 overflow-hidden rounded-full">
-                                    <img src="{{ Storage::url($course->cover) }}"
-                                        class="w-full h-full object-contain" class="object-cover" alt="thumbnail">
+                    <div class="flex flex-col gap-5">
+                        <h1 class="font-extrabold text-[30px] leading-[45px]">{{ $course->name }}</h1>
+                        <div class="flex items-center">
+                            <div class="flex gap-[10px] items-center">
+                                <div class="w-6 h-6 flex shrink-0">
+                                    <img src="{{ asset('images/icons/note-text.svg') }}" alt="icon">
                                 </div>
-                                <div class="flex flex-col gap-[2px]">
-                                    <p class="font-bold text-lg">{{ $course->name }}</p>
-                                    <p class="text-[#7F8190]">Beginners</p>
-                                </div>
+                                <p class="font-semibold">{{ $total_correct }} of {{ $total_question }} correct</p>
                             </div>
                         </div>
-                        <div class="flex shrink-0 w-[150px] items-center justify-center">
-                            <p class="font-semibold">{{ \Carbon\Carbon::parse($course->created_at)->format('d F Y') }}
-                            </p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    @if ($is_passed)
+                        <p
+                            class="p-[16px_20px] rounded-[10px] bg-[#06BC65] font-bold text-lg text-white outline-[#06BC65] outline-dashed outline-[3px] outline-offset-[7px] mr-[10px]">
+                            Passed
+                        </p>
+                    @else
+                        <p
+                            class="p-[16px_20px] rounded-[10px] bg-[#FD445E] font-bold text-lg text-white outline-[#FD445E] outline-dashed outline-[3px] outline-offset-[7px] mr-[10px]">
+                            Not Passed
+                        </p>
+                    @endif
+                </div>
+            </div>
+            <div class="result flex flex-col gap-5 mx-[70px] w-[870px] mt-[30px]">
+                @forelse ($questions as $question)
+                    <div
+                        class="question-card w-full flex items-center justify-between p-4 border border-[#EEEEEE] rounded-[20px]">
+                        <div class="flex flex-col gap-[6px]">
+                            <p class="text-[#7F8190]">Question</p>
+                            <p class="font-bold text-xl">{{ $question->question }}</p>
                         </div>
-                        <div class="flex shrink-0 w-[170px] items-center justify-center">
-                            <p class="p-[8px_16px] rounded-full bg-[#D5EFFE] font-bold text-sm text-[#066DFE]">
-                                {{ $course->category->name }}
-                            </p>
-                        </div>
-                        <div class="flex shrink-0 w-[120px] items-center">
-                            @if ($course->nextQuestionId)
-                                <a href="{{ route('learning.course', ['course' => $course->id, 'question' => $course->nextQuestionId]) }}"
-                                    class="w-full h-[41px] p-[10px_20px] bg-[#6436F1] rounded-full font-bold text-sm text-white transition-all duration-300 hover:shadow-[0_4px_15px_0_#6436F14D] text-center">
-                                    Start Test
-                                </a>
-                            @else
-                                <a href="{{ route('learning.raport.course', $course) }}"
-                                    class="w-full h-[41px] p-[10px_20px] bg-[#0A090B] rounded-full font-bold text-sm text-white transition-all duration-300 text-center">
-                                    Raport
-                                </a>
-                            @endif
-                        </div>
+                        @if ($question->status === 'Success')
+                            <div class="flex items-center gap-[14px]">
+                                <p class="bg-[#06BC65] rounded-full p-[8px_20px] text-white font-semibold text-sm">
+                                    {{ $question->status }}
+                                </p>
+                            </div>
+                        @elseif ($question->status === 'Failed')
+                            <div class="flex items-center gap-[14px]">
+                                <p class="bg-[#FD445E] rounded-full p-[8px_20px] text-white font-semibold text-sm">
+                                    {{ $question->status }}</p>
+                            </div>
+                        @else
+                            <div class="flex items-center gap-[14px]">
+                                <p class="bg-slate-800 w-fit flex-1 rounded-full p-[8px_20px] text-white font-semibold text-sm">
+                                    {{ $question->status }}
+                                </p>
+                            </div>
+                        @endif
                     </div>
                 @empty
-                    <p class="text-center">Belum ada course diberikan</p>
+                    <p class="text-center">
+                        Belum ada pertanyaan
+                    </p>
                 @endforelse
 
-
+            </div>
+            <div class="options flex items-center mx-[70px] gap-5 mt-[30px]">
+                <a href=""
+                    class="w-fit h-[52px] p-[14px_20px] bg-[#0A090B] rounded-full font-semibold text-white transition-all duration-300 text-center">Request
+                    Retake</a>
+                <a href=""
+                    class="w-fit h-[52px] p-[14px_20px] bg-[#6436F1] rounded-full font-bold text-white transition-all duration-300 hover:shadow-[0_4px_15px_0_#6436F14D] text-center">Contact
+                    Teacher</a>
             </div>
         </div>
     </section>
