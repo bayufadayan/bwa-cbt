@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseStudent;
+use App\Models\StudentAnswer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +16,38 @@ class CourseStudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Course $course)
     {
-        //
+        $students = $course->users()->orderBy('id', 'DESC')->get();
+        $totalQuestionCount = $course->questions()->count();
+
+        foreach ($students as $student) {
+            $answeredCount = StudentAnswer::where('user_id', $student->id)
+                ->whereHas('course_question', function ($query) use ($course) {
+                    $query->where('course_id', $course->id);
+                })
+                ->count();
+
+            $correctAnswerCount = StudentAnswer::where('user_id', $student->id)
+                ->where('answer', 'correct')
+                ->whereHas('course_question', function ($query) use ($course) {
+                    $query->where('course_id', $course->id);
+                })
+                ->count();
+
+            if ($answeredCount === 0) {
+                $student->status = 'Not Started';
+            } elseif ($correctAnswerCount === $totalQuestionCount) {
+                $student->status = 'Passed';
+            } else {
+                $student->status = 'Not Passed';
+            }
+        }
+
+        return view('admin.students.index', [
+            'course' => $course,
+            'students' => $students,
+        ]);
     }
 
     /**
@@ -62,12 +92,11 @@ class CourseStudentController extends Controller
         DB::beginTransaction();
 
         try {
-            
+
             $course->users()->attach($user->id);
             DB::commit();
 
-            return redirect(route('courses.show', $course));
-
+            return redirect(route('course.course_students.index', $course));
         } catch (\Exception $e) {
             DB::rollBack();
             $err = ValidationException::withMessages([
